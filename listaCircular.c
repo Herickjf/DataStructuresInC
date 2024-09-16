@@ -16,17 +16,17 @@ typedef struct {
 } l;
 
 // Protótipo das funcoes
-void addElement(l*);
-void addElementInStart(l*);
-void createList(l*);
-int isFull(l);
-int isEmpty(l);
-void removeFirstElement(l*);
-void removeLastElement(l*);
-void showList(l);
-void sortList(l*);
+void addElement(l*);            // insere elemento no fim
+void addElementInStart(l*);     // insere elemento no início
+void createList(l*);            // inicializa i e f com valor -1
+int isFull(l);                  // retorna 1 se cheia, 0 se não
+int isEmpty(l);                 // retorna 1 se vazia, 0 se não
+void removeFirstElement(l*);    // remove o primeiro elemento
+void removeLastElement(l*);     // remove o último elemento
+void showList(l);               // mostra a lista
+void sortList(l*);              // ordena a lista
 
-int menu(l*);
+int menu(l*);                   // gerencia o acesso a lista
 
 //////////////// MAIN ////////////////////
 int main(){
@@ -61,44 +61,44 @@ int menu(l* list){
     system("cls");
 
     switch (op){
-    case 1:
-        showList(*list);
-        return op;
-    case 2:
-        addElement(list);
-        return op;
-    case 3:
-        addElementInStart(list);
-        return op;
-    case 4:
-        removeLastElement(list);
-        return op;
-    case 5:
-        removeFirstElement(list);
-        return op;
-    case 6:
-        sortList(list);
-        return op;
-    case 7:
-        if(isEmpty(*list)){
-            printf("List is empty!\n\n");
-        }else{
-            printf("List is not empty!\n\n");
-        }
-        return op;
-    case 8:
-        if(isFull(*list)){
-            printf("List is full!\n\n");
-        }else{
-            printf("List is not full!\n\n");
-        }
-        return op;
-    case 9:
-        createList(list);
-        printf("List cleaned!\n\n");
-        return op;
-    default:
-        return op;
+        case 1:
+            showList(*list);
+            return op;
+        case 2:
+            addElement(list);
+            return op;
+        case 3:
+            addElementInStart(list);
+            return op;
+        case 4:
+            removeLastElement(list);
+            return op;
+        case 5:
+            removeFirstElement(list);
+            return op;
+        case 6:
+            sortList(list);
+            return op;
+        case 7:
+            if(isEmpty(*list)){
+                printf("List is empty!\n\n");
+            }else{
+                printf("List is not empty!\n\n");
+            }
+            return op;
+        case 8:
+            if(isFull(*list)){
+                printf("List is full!\n\n");
+            }else{
+                printf("List is not full!\n\n");
+            }
+            return op;
+        case 9:
+            createList(list);
+            printf("List cleaned!\n\n");
+            return op;
+        default:
+            return op;
     }
 }
 
@@ -139,10 +139,6 @@ void addElementInStart(l* list){
             list->i += 1;
             list->f += 1;
         }else{                      // caso a lista não esteja vazia
-            // if(list->i < list->f){  // se ela estava sendo preenchida normalmente, inverte os indices
-            //     //list->f = list->i;
-            //     list->i = MAX-1;
-            // }
             if(list->i != 0){       // se não estiver no inicio do vetor ainda, insere normalmente.
                 list->dado[list->i-1] = n;
                 list->i -= 1;
@@ -230,7 +226,7 @@ void removeFirstElement(l* list){
 void showList(l list){
     if(!isEmpty(list)){
         printf("List: ");
-        for(int i = list.i; ; i = i == MAX-1 ? 0 : i+1){
+        for(int i = list.i; ; i = (i+1)%MAX){
             printf("%d%s ", list.dado[i], i == list.f ? ".\n\n" : ",");
             if (i == list.f)
                 break;
@@ -243,8 +239,8 @@ void showList(l list){
 /////////////////////////////////////////
 void sortList(l* list){
     if(!isEmpty(*list)){
-        for(int i = list->i; ; i = i == MAX-1 ? 0 : i+1){
-            for(int j = list->i; ; j = j == MAX-1 ? 0 : j+1){
+        for(int i = list->i; ; i = (i+1)%MAX){
+            for(int j = list->i; ; j = (j+1)%MAX){
                 if(list->dado[i] < list->dado[j]){
                     int temp = list->dado[j];
                     list->dado[j] = list->dado[i];
